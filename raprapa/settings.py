@@ -76,11 +76,18 @@ WSGI_APPLICATION = 'raprapa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': '110.44.116.135',
+        'PORT': '57432',
+        'NAME': 'raprapa2',
+        'USER': 'ocb_ecommerce',
+        'PASSWORD': 'e',
     }
 }
 
+MIGRATION_MODULES = {
+    'rap': 'rap.migrations',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
