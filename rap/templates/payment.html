@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Payment</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    form submission success payment page.
+
+    <button id="khalti-payment-btn" class="btn btn-primary">Pay with Khalti</button><br>
+
+    <a href="{% url 'id_card' %}" class="btn btn-primary">Generate ID Card</a>
+  
+	<script src="index.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $("#khalti-payment-btn").click(function() {
+            $.ajax({
+                url: "{% url 'initiate_khalti_payment' %}",
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    window.location.href = response.payment_url;
+                },
+                error: function() {
+                    alert("Failed to initiate payment.");
+                }
+            });
+        });
+    });
+</script>
+  </body>
+</html>

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en/nep">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Replicated Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style(1).css">
-    <link rel="stylesheet" type="text/css" href="styles(1).css">
-    <script defer src="script.js"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet" />
+    <link href="../static/style.css" rel="stylesheet" />
+    <script defer src="static/script.js"></script>
+
 </head>
 
 <body>
     <div class="toggleContainer d-flex flex-column align-items-center gap-1">
-        <img src="./nepal.png" alt="" id="languageImage" height="15" width="10">
+        <img src="static/images/nepal.png" alt="" id="languageImage" height="15" width="10">
         <div class="language-switch">
             <input type="checkbox" id="language-toggle">
             <label for="language-toggle">
@@ -23,512 +23,452 @@
             </label>
         </div>
     </div>
-    
-    <script>
-        const languageToggle = document.getElementById('language-toggle');
-        console.log("lang", languageToggle);
-        const languageImage = document.getElementById('languageImage');
-        function toggleLanguage() {
-            if (languageToggle.checked) {
-                document.querySelector(".english-version").style.display = "block";
-                document.querySelector(".nepali-version").style.display = "none";
-                languageImage.src = './english.png';
-            } else {
-                document.querySelector(".english-version").style.display = "none";
-                document.querySelector(".nepali-version").style.display = "block";
-                languageImage.src = './nepal.png';
-            }
-        }
-        languageToggle.addEventListener('change', toggleLanguage);
-    </script>
 
-    <main class="container mt-5 p-2 ps-5 pe-5 font-weight-bold border">
-        <form action="/submit_membership" method="POST" id="membership_form">
-            <div class="form-group">
-                <div style="margin-left: auto; width: 150px; height: 200px; border: 1px solid Black;">
-                    <!-- Photo label with ID -->
-                    <label for="photo" class="d-flex align-items-center justify-content-center"
-                        style="height: 100%; width: 100%; cursor: pointer;">
-                        <div id="imagePreview">photo</div>
-                    </label>
-                    <!-- Actual file input -->
-                    <input type="file" style="visibility: hidden;" class="form-control" id="photo" accept="image/*"
-                        onchange="displayPreview(event)" required>
+    <main class="d-flex flex-column container mt-5 p-2 ps-5 pe-5 bg-white font-weight-bold border">
+
+            <form action="{% url 'submit_membership' %}" method="POST" id="membership_form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <div style="margin-left: auto; width: 150px; height: 200px; border: 1px solid black;">
+                        <label for="photo" class="d-flex align-items-center justify-content-center"
+                            style="height: 100%; width: 100%; cursor: pointer;">
+                            <div id="imagePreview" style="width: 100%; height: 100%; background-size: cover; background-position: center;display: flex;justify-content: center;align-items: center;">
+                                <span id="photo_label">photo</span>
+                            </div>
+                        </label>
+                        <!-- Actual file input -->
+                        <input type="file" style="visibility: hidden;" class="form-control" id="photo" accept="image/*"
+                            onchange="displayPreview(event)" name="photo">
+                    </div>
                 </div>
-            </div>
+                 
 
-            <!-- Form fields for English language -->
-            <div class="english-version">
-                <h1 class="text-center mb-4" style="text-decoration: underline;">Active Membership Form New / Renewal
-                </h1>
+                <h1 class="text-center mb-4"
+                    style="text-decoration: underline;"
+                    id="english-label-h1">Active
+                    Membership Form New / Renewal</h1>
+                <h1 class="text-center mb-4" id="nepali-label-h1" style="text-decoration: underline; display: none;"> सक्रिय
+                    सदस्यता
+                    फारम नयाँ / नविकरण</h1>
 
-                <span style="font-weight: bold;">Mr. President,<br>
-                    <p style="text-indent: 40px;">Committed to nationhood, nationalism, democracy, liberalism and
-                        liberalism
-                        Section 6 of the constitution of the party
-                        According to the new<input type="radio" id="is_new"> / renewal <input type="radio"
-                            id="is_renew">
-                        One year of active membership
-                        The fee charged is Rs. 150/- (one hundred and fifty) <input type="radio" id="is_oneyear"> Or
-                        four years old
-                        A lump sum fee of Rs. 500/- (Five Hundred)<input type="radio" id="is_fouryears"> including the
-                        cash receipt
-                        Engaged and active
-                        I respectfully request for membership approval.</p>
-                </span>
-                <div id="form-english">
+                <span class="english-label" style="font-weight: bold;">Mr. President,</span>
+                <span class="nepali-label" style="font-weight: bold; display: none;">अध्यक्ष ज्यू,</span>
+                <p style="text-indent: 40px;">
+                    <span class="english-label"> Committed to nationhood, nationalism, democracy, liberalism and
+                        liberalism Section 6 of the constitution of the party
+                        According to the new</span>
+                    <span class="nepali-label" style="display: none;">राष्ट्रियता, प्रजातन्त्र, उदारवार र सम्बर्धनवाद
+                        प्रति
+                        प्रतिबद्ध
+                        रही पार्टीको विधानको धारा ६
+                        बमोजिम नयाँ </span>
+                    <input type="radio" id="is_new" value="is_new" name="membership_type">
+                    <span class="english-label"> / renewal </span>
+                    <span class="nepali-label" style="display: none;">/ नवीकरण </span>
+                    <input type="radio" id="is_renew" value="is_renew" name="membership_type">
+                    <span class="english-label">One year of active membership
+                        The fee charged is Rs. 150/- (one hundred and fifty)</span>
+                    <span class="nepali-label" style="display: none;">
+                        सक्रिय सदस्यता एक वर्षको
+                        शुल्क वापत लाग्ने रकम रु. १५०/- (एक सय पचास)</span>
+                    <input type="radio" id="is_oneyear" value="is_oneyear" name="membership_duration">
+                    <span class="english-label"> Or four years old
+                        A lump sum fee of Rs. 500/- (Five Hundred) </span>
+                    <span class="nepali-label" style="display: none;"> चार
+                        वर्षको
+                        एकमुष्ट शुल्क वापत रू. ५००/- (पाँच सय) </span>
+                    <input type="radio" id="is_fouryears" value="is_fouryears" name="membership_duration">
+                    <span class="english-label"> including the cash receipt Engaged and active
+                        I respectfully request for membership approval.</span>
+                    <span class="nepali-label" style="display: none;"> नगदी रसिदसमेत
+                        संलग्न गरी सक्रिय
+                        सदस्यता स्वीकृतिको लागि सादर निवेदन गर्दछु</span>
+                </p>
+
+                <!-- kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk -->
+            <!-- llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll -->
+
+<!-- 
+                 -->
+                <!-- <form action="" method="POST" id="membership_form">
+
+                     -->
+
                     <div class="form-group">
-                        <label for="name">1. Name :</label>
-                        <input type="text" class="form-control" id="name" required>
-                        <label for="birth_date">Date of birth :</label>
-                        <input type="date" class="form-control" id="birth_date">
-                        <label for="reg_number">Citizenship No.:</label>
-                        <input type="number" class="form-control" id="reg_number" required>
+                        <label class="english-label" for="name">1. Name :</label>
+                        <label class="nepali-label" style="display: none;" for="name">१. नामः</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+
+                        <label class="english-label" for="birth_date">Date of birth :</label>
+                        <label class="nepali-label" style="display: none;" for="birth_date">जन्म मिति :</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date">
+
+                        <label class="english-label" for="citizenship_number">Citizenship No.:</label>
+                        <label class="nepali-label" style="display: none;" for="reg_number">नागरिकता नम्बर :</label>
+                        <input type="number" class="form-control" id="citizenship_number" name="citizenship_number" >
                     </div>
 
-
+                    <!-- voter_id, phone, email  -->
                     <div class="form-group">
-                        <label for="voter_id">2.Voter ID Card No.:</label>
-                        <input type="number" class="form-control" id="id">
-                        <label for="phone">Contact no.</label>
-                        <input type="number" class="form-control" id="phone">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
+                        <label class="english-label" for="voter_id">2. Voter ID Card No.:</label>
+                        <label class="nepali-label" style="display: none;" for="voter_id">२. मतदाता परिचय पत्र
+                            नं.:</label>
+                        <input type="number" class="form-control" id="voter_id" name="voter_id">
 
-                    <div class="form-group">
-                        <label for="perm_province">3.Permanent Address : Name of State :</label>
-                        <input type="text" class="form-control" id="perm_province">
-                        <label for="perm_district">District :</label>
-                        <input type="text" class="form-control" id="perm_district">
-                        <label for="perm_constituency">Parliamentary Constituency No.:</label>
-                        <input type="text" class="form-control" id="perm_constituency"><br>
-                    </div>
+                        <label class="english-label" for="phone">Contact no.</label>
+                        <label class="nepali-label" style="display: none;" for="phone">सम्पर्क नं.</label>
+                        <input type="number" class="form-control" id="phone" name="phone">
 
-                    <div class="form-group">
-                        <label for="perm_constituencyB">State Assembly Constituency No.:</label>
-                        <input type="text" class="form-control" id="perm_constituencyB">
-                        <label for="perm_palika">N. Pa. / Ga. Pa.:</label>
-                        <input type="text" class="form-control" id="perm_palika">
-                        <label for="perm_wardno">Ward no.:</label>
-                        <input type="number" class="form-control" id="perm_wardno">
-                        <label for="perm_voting_center">Polling Station :</label>
-                        <input type="text" class="form-control" id="perm_voting_center">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="current_province">4. Present Address : Name of State : </label>
-                        <input type="text" class="form-control" id="current_province">
-                        <label for="current_district">District :</label>
-                        <input type="text" class="form-control" id="current_district">
-                        <label for="current_constituency">Parliamentary Constituency No. : </label>
-                        <input type="text" class="form-control" id="current_constituency">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="current_constituencyB">State Assembly Constituency No.:</label>
-                        <input type="text" class="form-control" id="current_constituencyB">
-                        <label for="current_palika">N. Pa. / Ga. Pa.:</label>
-                        <input type="text" class="form-control" id="current_palika">
-                        <label for="current_wardno">Ward no.:</label>
-                        <input type="number" class="form-control" id="current_wardno">
-                        <label for="current_voting_center">Polling Station :</label>
-                        <input type="text" class="form-control" id="current_voting_center">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="father_or_mother_name">5. Father's/Mother's Name :</label>
-                        <input type="text" class="form-control" id="father_or_mother_name">
-                        <label for="husband_or_wife_name">Name of Spouse :</label>
-                        <input type="text" class="form-control" id="husband_or_wife_name">
-                        <label for="family_count">Family Number :</label>
-                        <input type="number" class="form-control" id="family_count">
+                        <label class="english-label" for="email">Email:</label>
+                        <label class="nepali-label" style="display: none;" for="email">इमेल:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="is_literate">6. Educational Qualification: Literate :</label>
-                        <input type="radio" id="literate">
+                        <label class="english-label" for="perm_province">3. Permanent Address : Name of State :</label>
+                        <label class="nepali-label" style="display: none;" for="perm_province">३. स्थायी ठेगाना :
+                            प्रदेशको नाम
+                            :</label>
+                        <input type="text" class="form-control" id="perm_province" name="perm_province">
 
-                        <label for="plus_two_pass">Ten plus two (+2)</label>
-                        <input type="radio" id="plus_two">
+                        <label class="english-label" for="perm_district">District :</label>
+                        <label class="nepali-label" style="display: none;" for="perm_district">जिल्ला :</label>
+                        <input type="text" class="form-control" id="perm_district" name="perm_district">
 
-                        <label for="bachelors">Graduation</label>
-                        <input type="radio" id="bachelors">
-
-                        <label for="masters">Master's degree</label>
-                        <input type="radio" id="masters">
-
-                        <label for="phd">Ph.D.</label>
-                        <input type="radio" id="phd">
-
-                        <label for="other_education">Others</label>
-                        <input type="radio" id="other_education">
-                    </div>
-                    <div class="form-group">
-                        <label for="religion">7. Religion :</label>
-                        <input type="text" class="form-control short-input" id="religion">
-                        <label class="checkbox-label" for="married">Marital Status: Married</label>
-                        <input type="radio" id="married">
-                        <label class="checkbox-label" for="unmarried">Unmarried</label>
-                        <input type="radio" id="unmarried">
-                        <label class="checkbox-label" for="other_marital_status">Others</label>
-                        <input type="radio" id="other_marital_status">
+                        <label class="english-label" for="perm_constituency">Parliamentary Constituency No.:</label>
+                        <label class="nepali-label" style="display: none;" for="perm_constituency">संसदीय निर्वाचन
+                            क्षेत्र नं.
+                            :</label>
+                        <input type="text" class="form-control" id="perm_constituency" name="perm_constituency"><br>
                     </div>
 
                     <div class="form-group">
-                        <label for="baun_caste">8. Caste Group: Khasarya</label>
-                        <input type="radio" id="baun_caste">
-                        <label class="checkbox-label" for="aadiwasi_caste">Adivasi/tribe</label>
-                        <input type="radio" id="aadiwasi_caste">
-                        <label class="checkbox-label" for="dalit_caste">Dalit</label>
-                        <input type="radio" id="dalit_caste">
-                        <label for="madhesi_caste">Madhesi</label>
-                        <input type="radio" id="madhesi_caste">
-                        <label for="muslim_caste">Muslim</label>
-                        <input type="radio" id="muslim_caste">
-                        <label for="pichhadieko_kshetra_caste">Backward Region</label>
-                        <input type="radio" id="pichhadieko_kshetra_caste">
-                        <label for="apangata_caste">Disabled</label>
-                        <input type="radio" id="apangata_caste">
-                        <label for="other_caste">others</label>
-                        <input type="radio" id="other_caste">
+                        <label class="english-label" for="perm_constituencyB">State Assembly Constituency No.:</label>
+                        <label class="nepali-label" style="display: none;" for="perm_constituencyB">प्रदेशसभा निर्वाचन
+                            क्षेत्र
+                            नं. :</label>
+                        <input type="text" class="form-control" id="perm_constituencyB" name="perm_constituencyB">
+
+                        <label class="english-label" for="perm_palika">N. Pa. / Ga. Pa.:</label>
+                        <label class="nepali-label" style="display: none;" for="perm_palika">न.पा./ गा.पा. :</label>
+                        <input type="text" class="form-control" id="perm_palika" name="perm_palika">
+
+                        <label class="english-label" for="perm_wardno">Ward no.:</label>
+                        <label class="nepali-label" style="display: none;" for="perm_wardno">वडा नं. :</label>
+                        <input type="number" class="form-control" id="perm_wardno" name="perm_wardno">
+
+                        <label class="english-label" for="perm_voting_center">Polling Station :</label>
+                        <label class="nepali-label" style="display: none;" for="perm_voting_center">मतदान केन्द्र
+                            :</label>
+                        <input type="text" class="form-control" id="perm_voting_center" name="perm_voting_center">
                     </div>
 
                     <div class="form-group">
-                        <label for="year_joined">9. Years spent in RPP:</label>
-                        <input type="number" class="form-control" id="year_joined">
-                        <label for="membership_date">If you have taken active membership before this date.-</label>
-                        <input type="date" class="form-control" id="membership_date">
-                        <label for="membership_id">Membership no. :</label>
-                        <input type="number" class="form-control" id="membership_id">
+                        <label class="english-label" for="current_province">4. Present Address : Name of State :
+                        </label>
+                        <label class="nepali-label" style="display: none;" for="current_province">४. हालको ठेगाना :
+                            प्रदेशको नाम
+                            : </label>
+                        <input type="text" class="form-control" id="current_province" name="current_province">
+
+                        <label class="english-label" for="current_district">District :</label>
+                        <label class="nepali-label" style="display: none;" for="current_district">जिल्ला :</label>
+                        <input type="text" class="form-control" id="current_district" name="current_district">
+
+                        <label class="english-label" for="current_constituency">Parliamentary Constituency No. :
+                        </label>
+                        <label class="nepali-label" style="display: none;" for="current_constituency">संसदीय निर्वाचन
+                            क्षेत्र
+                            नं. :</label>
+                        <input type="text" class="form-control" id="current_constituency" name="current_constituency">
                     </div>
 
                     <div class="form-group">
-                        <label for="past_responsibility">10. Past responsibility </label>
-                        <input type="text" class="form-control" id="past_responsibility">
+                        <label class="english-label" for="current_constituencyB">State Assembly Constituency
+                            No.:</label>
+                        <label class="nepali-label" style="display: none;" for="current_constituencyB">प्रदेशसभा
+                            निर्वाचन
+                            क्षेत्र नं. :</label>
+                        <input type="text" class="form-control" id="current_constituencyB" name="current_constituencyB">
+
+                        <label class="english-label" for="current_palika">N. Pa. / Ga. Pa.:</label>
+                        <label class="nepali-label" style="display: none;" for="current_palika">न.पा./ गा.पा. :</label>
+                        <input type="text" class="form-control" id="current_palika" name="current_palika">
+
+                        <label class="english-label" for="current_wardno">Ward no.:</label>
+                        <label class="nepali-label" style="display: none;" for="current_wardno">वडा नं. :</label>
+                        <input type="number" class="form-control" id="current_wardno" name="current_wardno">
+
+                        <label class="english-label" for="current_voting_center">Polling Station :</label>
+                        <label class="nepali-label" style="display: none;" for="current_voting_center">मतदान केन्द्र
+                            :</label>
+                        <input type="text" class="form-control" id="current_voting_center" name="current_voting_center">
                     </div>
 
+                    <div class="form-group">
+                        <label class="english-label" for="father_mother_name">5. Father's/Mother's Name :</label>
+                        <label class="nepali-label" style="display: none;" for="father_mother_name">५. पिता / माताकोनाम</label>
+                        <input type="text" class="form-control" id="father_or_mother_name" name="father_mother_name">
+
+                        <label class="english-label" for="husband_or_wife_name">Name of Spouse :</label>
+                        <label class="nepali-label" style="display: none;" for="husband_or_wife_name">पति / पत्नीको नाम:</label>
+                        <input type="text" class="form-control" id="husband_or_wife_name" name="husband_or_wife_name">
+
+                        <label class="english-label" for="family_count">Family Number :</label>
+                        <label class="nepali-label" style="display: none;" for="family_count">परिवार संख्या :</label>
+                        <input type="number" class="form-control" id="family_count" name="family_count">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="english-label" for="is_literate">6. Educational Qualification: Literate :</label>
+                        <label class="nepali-label" style="display: none;" for="is_literate">६. शैक्षिक योग्यता: साक्षर</label>
+                        <input type="radio" id="literate" value="literate" name="education">
+
+                        <label class="english-label" for="plus_two_pass">Ten plus two (+2)</label>
+                        <label class="nepali-label" style="display: none;" for="plus_two_pass">दश जोड दुई (+२)</label>
+                        <input type="radio" id="plus_two" value="plus_two" name="education">
+
+                        <label class="english-label" for="bachelors">Graduation</label>
+                        <label class="nepali-label" style="display: none;" for="bachelors">स्नातक</label>
+                        <input type="radio" id="bachelors" value="bachelors" name="education">
+
+                        <label class="english-label" for="masters">Master's degree</label>
+                        <label class="nepali-label" style="display: none;" for="masters">स्नातकोत्तर</label>
+                        <input type="radio" id="masters" value="masters" name="education">
+
+                        <label class="english-label" for="phd">Ph.D.</label>
+                        <label class="nepali-label" style="display: none;" for="phd">पि.एच.डि.</label>
+                        <input type="radio" id="phd" value="phd" name="education">
+
+                        <label class="english-label" for="other_education">Others</label>
+                        <label class="nepali-label" style="display: none;" for="other_education">अन्य</label>
+                        <input type="radio" id="other_education" value="other_education" name="education">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="english-label" for="religion">7. Religion :</label>
+                        <label class="nepali-label" style="display: none;" for="religion">७. धर्म :</label>
+                        <input type="text" class="form-control short-input" id="religion" name="religion">
+
+                        <label class="english-label checkbox-label" for="married">Marital Status: Married</label>
+                        <label class="nepali-label checkbox-label" style="display: none;" for="married">वैवाहिक स्थिति :
+                            विवाहित</label>
+                        <input type="radio" id="married" value="married" name="marital_status">
+
+                        <label class="english-label checkbox-label" for="unmarried">Unmarried</label>
+                        <label class="nepali-label checkbox-label" style="display: none;"
+                            for="unmarried">अविवाहित</label>
+                        <input type="radio" id="unmarried" value="unmarried" name="marital_status">
+
+                        <label class="english-label checkbox-label" for="other_marital_status">Others</label>
+                        <label class="nepali-label checkbox-label" style="display: none;"
+                            for="other_marital_status">अन्य</label>
+                        <input type="radio" id="other_marital_status" value="other_marital_status" name="marital_status">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="english-label" for="baun_caste">8. Caste Group: Khasarya</label>
+                        <label class="nepali-label" style="display: none;" for="baun_caste">८. जातिगत समूह :
+                            खसआर्य</label>
+                        <input type="radio" id="baun_caste" value="baun_caste" name="caste">
+
+                        <label class="english-label checkbox-label" for="aadiwasi_caste">Aadivasi/tribe</label>
+                        <label class="nepali-label checkbox-label" style="display: none;"
+                            for="aadiwasi_caste">आदिवासी/जनजाति</label>
+                        <input type="radio" id="aadiwasi_caste" value="aadiwasi_caste" name="caste">
+
+                        <label class="english-label checkbox-label" for="dalit_caste">Dalit</label>
+                        <label class="nepali-label checkbox-label" style="display: none;" for="dalit_caste">दलित</label>
+                        <input type="radio" id="dalit_caste" value="dalit_caste" name="caste">
+
+                        <label class="english-label" for="madhesi_caste">Madhesi</label>
+                        <label class="nepali-label" style="display: none;" for="madhesi_caste">मधेशी</label>
+                        <input type="radio" id="madhesi_caste" value="madhesi_caste" name="caste">
+
+                        <label class="english-label" for="muslim_caste">Muslim</label>
+                        <label class="nepali-label" style="display: none;" for="muslim_caste">मुस्लिम</label>
+                        <input type="radio" id="muslim_caste" value="muslim_caste" name="caste">
+
+                        <label class="english-label" for="pichhadieko_kshetra_caste">Backward Region</label>
+                        <label class="nepali-label" style="display: none;" for="pichhadieko_kshetra_caste">पिछडिएको
+                            क्षेत्र</label>
+                        <input type="radio" id="pichhadieko_kshetra_caste" value="pichhadieko_kshetra_caste" name="caste">
+
+                        <label class="english-label" for="apangata_caste">Disabled</label>
+                        <label class="nepali-label" style="display: none;" for="apangata_caste">अपाङ्गता</label>
+                        <input type="radio" id="apangata_caste" value="apangata_caste" name="caste">
+
+                        <label class="english-label" for="other_caste">Others</label>
+                        <label class="nepali-label" style="display: none;" for="other_caste">अन्य</label>
+                        <input type="radio" id="other_caste" value="other_caste" name="caste">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- <label class="english-label" for="year_joined">9. Year's spent in RPP:</label>
+                        <label class="nepali-label" style="display: none;" for="year_joined">९. राप्रपामा आवढु भएको साल:</label>
+                        <input type="number" class="form-control" id="year_joined" name="year_joined"> -->
+
+                        <label class="english-label" for="membership_date">If you have taken active membership before this date.-</label>
+                        <label class="nepali-label" style="display: none;" for="membership_date">यस अघि सक्रिय सढस्यता लिएको भए मिति .-</label>
+                        <input type="date" class="form-control" id="membership_date" name="membership_date">
+
+                        <label class="english-label" for="membership_id">Membership no. :</label>
+                        <label class="nepali-label" style="display: none;" for="membership_id">सदस्यता नं. :</label>
+                        <input type="number" class="form-control" id="membership_id" name="membership_id">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="english-label" for="past_responsibility">10. Past responsibility </label>
+                        <label class="nepali-label" style="display: none;" for="past_responsibility">१०. विगतको
+                            जिम्मेवारी</label>
+                        <input type="text" class="form-control" id="past_responsibility" name="past_responsibility">
+                    </div>
+
+                    <span class="english-label" style="font-weight: bold;">11. Experience of working in various
+                        organizations:</span>
+                    <span class="nepali-label" style="font-weight: bold; display: none;">११. विभिन्न संस्थामा बसेर काम
+                        गरेको
+                        अनुभव :</span>
                     <table class="table table-bordered">
-                        <span style="font-weight: bold;">11. Experience of working in various organizations:</span>
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Organisation name</th>
-                                <th>Verse</th>
-                                <th>years worked</th>
+                                <th>
+                                    <span class="english-label">No.</span>
+                                    <span class="nepali-label" style="display: none;">नं.</span>
+                                </th>
+                                <th>
+                                    <span class="english-label">Organisation name</span>
+                                    <span class="nepali-label" style="display: none;">संस्थाको नाम</span>
+                                </th>
+                                <th>
+                                    <span class="english-label">Verse</span>
+                                    <span class="nepali-label" style="display: none;">पद</span>
+                                </th>
+                                <th>
+                                    <span class="english-label">Years worked</span>
+                                    <span class="nepali-label" style="display: none;">काम गरेको बर्षहरू</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody id="experienceTableBody">
                             <tr>
-                                <td><label for="company1">a.</label></td>
-                                <td><input type="text" class="form-control" id="company1"></td>
-                                <td><input type="text" class="form-control" id="jobtitle1"></td>
-                                <td><input type="number" class="form-control" id="worktenure1"></td>
+                                <td><label class="english-label" for="company1">a.</label>
+                                    <label class="nepali-label" style="display: none;" for="company1">क.</label>
+                                </td>
+                                <td><input type="text" class="form-control" id="company1" name="company1"></td>
+                                <td><input type="text" class="form-control" id="jobtitle1" name="jobtitle1"></td>
+                                <td><input type="number" class="form-control" id="worktenure1" name="worktenure1"></td>
                             </tr>
                             <tr>
-                                <td><label for="company2">b.</label></td>
-                                <td><input type="text" class="form-control" id="company2"></td>
-                                <td><input type="text" class="form-control" id="jobtitle2"></td>
-                                <td><input type="number" class="form-control" id="worktenure2"></td>
+                                <td><label class="english-label" for="company2">b.</label>
+                                    <label class="nepali-label" style="display: none;" for="company2">ख.</label>
+                                </td>
+                                <td><input type="text" class="form-control" id="company2" name="company2"></td>
+                                <td><input type="text" class="form-control" id="jobtitle2" name="jobtitle2"></td>
+                                <td><input type="number" class="form-control" id="worktenure2" name="worktenure2"></td>
                             </tr>
                             <tr>
-                                <td><label for="company3">c.</label></td>
-                                <td><input type="text" class="form-control" id="company3"></td>
-                                <td><input type="text" class="form-control" id="jobtitle3"></td>
-                                <td><input type="number" class="form-control" id="worktenure3"></td>
+                                <td><label class="english-label" for="company3">c.</label>
+                                    <label class="nepali-label" style="display: none;" for="company3">ग.</label>
+                                </td>
+                                <td><input type="text" class="form-control" id="company3" name="company3"></td>
+                                <td><input type="text" class="form-control" id="jobtitle3" name="jobtitle3"></td>
+                                <td><input type="number" class="form-control" id="worktenure3" name="worktenure3"></td>
                             </tr>
                             <tr>
-                                <td><label for="company4">d.</label></td>
-                                <td><input type="text" class="form-control" id="company4"></td>
-                                <td><input type="text" class="form-control" id="jobtitle4"></td>
-                                <td><input type="number" class="form-control" id="worktenure4"></td>
+                                <td><label class="english-label" for="company4">d.</label>
+                                    <label class="nepali-label" style="display: none;" for="company4">घ.</label>
+                                </td>
+                                <td><input type="text" class="form-control" id="company4" name="company4"></td>
+                                <td><input type="text" class="form-control" id="jobtitle4" name="jobtitle4"></td>
+                                <td><input type="number" class="form-control" id="worktenure4" name="worktenure4"></td>
                             </tr>
                             <tr>
-                                <td><label for="company5">e.</label></td>
-                                <td><input type="text" class="form-control" id="company5"></td>
-                                <td><input type="text" class="form-control" id="jobtitle5"></td>
-                                <td><input type="number" class="form-control" id="worktenure5"></td>
+                                <td><label class="english-label" for="company5">e.</label>
+                                    <label class="nepali-label" style="display: none;" for="company5">ङ.</label>
+                                </td>
+                                <td><input type="text" class="form-control" id="company5" name="company5"></td>
+                                <td><input type="text" class="form-control" id="jobtitle5" name="jobtitle5"></td>
+                                <td><input type="number" class="form-control" id="worktenure5" name="worktenure5"></td>
                             </tr>
                         </tbody>
                     </table>
+
                     <div class="form-group">
-                        <label for="signature_of_approver" class="h5 fw-bold">Signature:</label>
-                        <!-- Hidden file input, common for both language versions -->
-                        <input type="file" accept="image/*" id="signature_upload" style="display: none;">
+                        <!-- <label class="english-label" for="signature_of_approver" class="h5 fw-bold">Signature:</label>
+                        <label class="nepali-label" style="display: none;" for="signature_of_approver"
+                            class="h5 fw-bold">हस्ताक्षर:</label>
+                        <input type="file" accept="image/*" id="signature_upload" style="display: none;"
+                            name="signature_upload"> 
+
                         <img src="" alt="" id="signature_preview" style="display: none;">
                         <button id="choose_signature">Choose File</button>
-                        <input type="hidden" id="signature_of_approver" name="signature_of_approver">
+                        <input type="hidden" id="signature_of_approver" name="signature_of_approver"
+                            name="signature_of_approver"> -->
                     </div>
-                    
 
                     <div class="form-group">
-                        <label for="name_of_approver">Name of Recommending Member: </label>
-                        <input type="text" class="form-control" id="name_of_approver">
+                        <label class="english-label" for="name_of_approver">Name of Recommending Member: </label>
+                        <label class="nepali-label" style="display: none;" for="name_of_approver">सदस्य सिफारिस गर्नेको
+                            नाम
+                            :</label>
+                        <input type="text" class="form-control" id="name_of_approver" name="name_of_approver">
                     </div>
-                    <div class="form-group">
-                        <label for="position_of_approver">Position:</label>
-                        <input type="text" class="form-control" id="position_of_approver">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone no.</label>
-                        <input type="number" class="form-control" id="phone">
-                    </div>
-                    <p>PS: Active membership application letter along with application introduction document (voter
-                        identification
-                        letter, citizenship or driver's license).
-                        A copy should be attached.</p>
 
-                    <p>To be filled by District Chairman:</p>
-                    <p>According to the constitution of the party Mr. of the above description:
-                        <span id="applicant_name_placeholder">{ name of
-                            applicant }</span>
-                        I would like to inform you about the recommended procedure for active membership.
+                    <div class="form-group">
+                        <label class="english-label" for="position_of_approver">Position:</label>
+                        <label class="nepali-label" style="display: none;" for="position_of_approver">पद :</label>
+                        <input type="text" class="form-control" id="position_of_approver" name="position_of_approver">
+                    </div>
+
+                    <p><span class="english-label"> PS: Active membership application letter along with application
+                            introduction
+                            document (voter
+                            identification
+                            letter, citizenship or driver's license).
+                            A copy should be attached.</span>
+                        <span class="nepali-label" style="display: none;"> पुनश्च:सक्रिय सदस्यता आवेद्न पत्रसाथ आवेदनको
+                            परिचय
+                            खुल्ने कागजात (मतदातापरिचय
+                            पत्र, नागरिकता वा चालक अनुमति पत्र) को
+                            प्रतिलिपि संलग्न गर्नु पर्नेछ । </span>
+                    </p>
+                    <p><span class="english-label"> To be filled by District Chairman:</span>
+                        <span class="nepali-label" style="display: none;"> जिल्ला अध्यक्षले भर्ने:</span>
+                    </p>
+                    <p><span class="english-label"> According to the constitution of the party Mr. of the above
+                            description:</span>
+                        <span class="nepali-label" style="display: none;"> पार्टीको विधान अनुसार माथि उल्लिखित विवरणका
+                            श्री:</span>
+                        <span id="applicant_name_placeholder">{ name of applicant }</span>
+                        <span class="english-label"> I would like to inform you about the recommended procedure for
+                            active
+                            membership.</span>
+                        <span class="nepali-label" style="display: none;"> लाई सक्रिय सदस्यताको लागि सिफारिस गरिएको
+                            व्यहोरा
+                            जानकारी गराउन चाहान्छु ।</span>
                     </p>
 
                     <div class="form-group flex-column ms-auto w-25">
                         <div style="text-align: center; margin-top: 20px;">
-                            <button type="submit" form="submit_form" class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary mb-3" id="submit_form" type="submit">
+                                Submit
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </form>
+        </main>
 
-            </span>
-
-            <div class="nepali-version" style="display: none;">
-                <h1 class="text-center mb-4" style="text-decoration: underline;"> सक्रिय सदस्यता फारम नयाँ / नविकरण</h1>
-
-                <span style="font-weight: bold;">अध्यक्ष ज्यू,<br>
-                    <p style="text-indent: 40px;">राष्ट्र, राष्ट्रियता, प्रजातन्त्र, उदारवार र सम्बर्धनवाद प्रति
-                        प्रतिबद्ध
-                        रही पार्टीको विधानको धारा ६
-                        बमोजिम नयाँ <input type="radio" id="is_new"> / नवीकरण <input type="radio" id="is_renew">
-                        सक्रिय सदस्यता एक वर्षको
-                        शुल्क वापत लाग्ने रकम रु. १५०/- (एक सय पचास) <input type="radio" id="is_oneyear"> अथवा चार
-                        वर्षको
-                        एकमुष्ट शुल्क वापत रू. ५००/- (पाँच सय) <input type="radio" id="is_fouryears"> को नगदी रसिदसमेत
-                        संलग्न गरी सक्रिय
-                        सदस्यता स्वीकृतिको लागि सादर निवेदन गर्दछु ।</p>
-                    <div class="form-group">
-                        <label for="name">१. नामः</label>
-                        <input type="text" class="form-control" id="name" required>
-                        <label for="birth_date">जन्म मिति :</label>
-                        <input type="date" class="form-control" id="birth_date">
-                        <label for="reg_number">नागरिकता नम्बर :</label>
-                        <input type="number" class="form-control" id="reg_number" required>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="voter_id">२. मतदाता परिचय पत्र नं.:</label>
-                        <input type="number" class="form-control" id="id">
-                        <label for="phone">सम्पर्क नं.</label>
-                        <input type="number" class="form-control" id="phone">
-                        <label for="email">इमेल:</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="perm_province">३. स्थायी ठेगाना : प्रदेशको नाम :</label>
-                        <input type="text" class="form-control" id="perm_province">
-                        <label for="perm_district">जिल्ला :</label>
-                        <input type="text" class="form-control" id="perm_district">
-                        <label for="perm_constituency">संसदीय निर्वाचन क्षेत्र नं. :</label>
-                        <input type="text" class="form-control" id="perm_constituency"><br>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="perm_constituencyB">प्रदेशसभा निर्वाचन क्षेत्र नं. :</label>
-                        <input type="text" class="form-control" id="perm_constituencyB">
-                        <label for="perm_palika">न.पा./ गा.पा. :</label>
-                        <input type="text" class="form-control" id="perm_palika">
-                        <label for="perm_wardno">वडा नं. :</label>
-                        <input type="number" class="form-control" id="perm_wardno">
-                        <label for="perm_voting_center">मतदान केन्द्र :</label>
-                        <input type="text" class="form-control" id="perm_voting_center">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="current_province">४. हालको ठेगाना : प्रदेशको नाम : </label>
-                        <input type="text" class="form-control" id="current_province">
-                        <label for="current_district">जिल्ला :</label>
-                        <input type="text" class="form-control" id="current_district">
-                        <label for="current_constituency">संसदीय निर्वाचन क्षेत्र नं. :</label>
-                        <input type="text" class="form-control" id="current_constituency">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="current_constituencyB">प्रदेशसभा निर्वाचन क्षेत्र नं. :</label>
-                        <input type="text" class="form-control" id="current_constituencyB">
-                        <label for="current_palika">न.पा./ गा.पा. :</label>
-                        <input type="text" class="form-control" id="current_palika">
-                        <label for="current_wardno">वडा नं. :</label>
-                        <input type="number" class="form-control" id="current_wardno">
-                        <label for="current_voting_center">मतदान केन्द्र :</label>
-                        <input type="text" class="form-control" id="current_voting_center">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="father_or_mother_name">५. पिता / माताको नाम</label>
-                        <input type="text" class="form-control" id="father_or_mother_name">
-                        <label for="husband_or_wife_name">पति / पत्नीको नाम :</label>
-                        <input type="text" class="form-control" id="husband_or_wife_name">
-                        <label for="family_count">परिवार संख्या :</label>
-                        <input type="number" class="form-control" id="family_count">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="is_literate">६. शैक्षिक योग्यता: साक्षर</label>
-                        <input type="radio" id="literate">
-
-                        <label for="plus_two_pass">दश जोड दुई (+२)</label>
-                        <input type="radio" id="plus_two">
-
-                        <label for="bachelors">स्नातक</label>
-                        <input type="radio" id="bachelors">
-
-                        <label for="masters">स्नातकोत्तर</label>
-                        <input type="radio" id="masters">
-
-                        <label for="phd">पि.एच.डि.</label>
-                        <input type="radio" id="phd">
-
-                        <label for="other_education">अन्य</label>
-                        <input type="radio" id="other_education">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="religion">७. धर्म :</label>
-                        <input type="text" class="form-control short-input" id="religion">
-                        <label class="checkbox-label" for="married">वैवाहिक स्थिति : विवाहित</label>
-                        <input type="radio" id="married">
-                        <label class="checkbox-label" for="unmarried">अविवाहित</label>
-                        <input type="radio" id="unmarried">
-                        <label class="checkbox-label" for="other_marital_status">अन्य</label>
-                        <input type="radio" id="other_marital_status">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="baun_caste">८. जातिगत समूह : खसआर्य</label>
-                        <input type="radio" id="baun_caste">
-                        <label class="checkbox-label" for="aadiwasi_caste">आदिवासी/जनजाति</label>
-                        <input type="radio" id="aadiwasi_caste">
-                        <label class="checkbox-label" for="dalit_caste">दलित</label>
-                        <input type="radio" id="dalit_caste">
-                        <label for="madhesi_caste">मधेशी</label>
-                        <input type="radio" id="madhesi_caste">
-                        <label for="muslim_caste">मुस्लिम</label>
-                        <input type="radio" id="muslim_caste">
-                        <label for="pichhadieko_kshetra_caste">पिछडिएको क्षेत्र</label>
-                        <input type="radio" id="pichhadieko_kshetra_caste">
-                        <label for="apangata_caste">अपाङ्गता</label>
-                        <input type="radio" id="apangata_caste">
-                        <label for="other_caste">अन्य</label>
-                        <input type="radio" id="other_caste">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="year_joined">९. राप्रपामा आवढु भएको साल :</label>
-                        <input type="number" class="form-control" id="year_joined">
-                        <label for="membership_date">यस अघि सक्रिय सढस्यता लिएको भए मिति .-</label>
-                        <input type="date" class="form-control" id="membership_date">
-                        <label for="membership_id">सदस्यता नं. :</label>
-                        <input type="number" class="form-control" id="membership_id">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="past_responsibility">१०. विगतको जिम्मेवारी</label>
-                        <input type="text" class="form-control" id="past_responsibility">
-                    </div>
-
-                    <table class="table table-bordered">
-                        <span style="font-weight: bold;">११. विभिन्न संस्थामा बसेर काम गरेको अनुभव :</span>
-                        <thead>
-                            <tr>
-                                <th>नं.</th>
-                                <th>संस्थाको नाम</th>
-                                <th>पद</th>
-                                <th>काम गरेको साल</th>
-                            </tr>
-                        </thead>
-                        <tbody id="experienceTableBody">
-                            <tr>
-                                <td><label for="company1">क.</label></td>
-                                <td><input type="text" class="form-control" id="company1"></td>
-                                <td><input type="text" class="form-control" id="jobtitle1"></td>
-                                <td><input type="number" class="form-control" id="worktenure1"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="company2">ख.</label></td>
-                                <td><input type="text" class="form-control" id="company2"></td>
-                                <td><input type="text" class="form-control" id="jobtitle2"></td>
-                                <td><input type="number" class="form-control" id="worktenure2"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="company3">ग.</label></td>
-                                <td><input type="text" class="form-control" id="company3"></td>
-                                <td><input type="text" class="form-control" id="jobtitle3"></td>
-                                <td><input type="number" class="form-control" id="worktenure3"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="company4">घ.</label></td>
-                                <td><input type="text" class="form-control" id="company4"></td>
-                                <td><input type="text" class="form-control" id="jobtitle4"></td>
-                                <td><input type="number" class="form-control" id="worktenure4"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="company5">ङ.</label></td>
-                                <td><input type="text" class="form-control" id="company5"></td>
-                                <td><input type="text" class="form-control" id="jobtitle5"></td>
-                                <td><input type="number" class="form-control" id="worktenure5"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="form-group">
-                        <label for="signature_of_approver" class="h5 fw-bold">हस्ताक्षर:</label>
-                        <!-- Hidden file input, common for both language versions -->
-                        <input type="file" accept="image/*" id="signature_upload" style="display: none;">
-                        <img src="" alt="" id="signature_preview" style="display: none;">
-                        <button id="choose_signature">Choose File</button>
-                        <input type="hidden" id="signature_of_approver" name="signature_of_approver">
-                    </div>
-                    
-
-
-                    <div class="form-group">
-                        <label for="name_of_approver">सदस्य सिफारिस गर्नेको नाम :</label>
-                        <input type="text" class="form-control" id="name_of_approver">
-                    </div>
-                    <div class="form-group">
-                        <label for="position_of_approver">पद :</label>
-                        <input type="text" class="form-control" id="position_of_approver">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone"> फोन नं.</label>
-                        <input type="number" class="form-control" id="phone">
-                    </div>
-                    <p>पुनश्च:सक्रिय सदस्यता आवेद्न पत्रसाथ आवेदनको परिचय खुल्ने कागजात (मतदातापरिचय
-                        पत्र, नागरिकता वा चालक अनुमति पत्र) को
-                        प्रतिलिपि संलग्न गर्नु पर्नेछ ।</p>
-
-                    <p>जिल्ला अध्यक्षले भर्ने:</p>
-                    <p>पार्टीको विधान अनुसार माथि उल्लिखित विवरणका श्री: <span id="applicant_name_placeholder">{ name of
-                            applicant }</span>
-                        लाई सक्रिय सदस्यताको लागि सिफारिस गरिएको व्यहोरा जानकारी गराउन चाहान्छु ।
-                    </p>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button type="submit" form="submit_form" class="btn btn-primary">Submit</button>
-                    </div>
-            </div>
-        </form>
-    </main>
-    <div class="column-reverse">
-        <img src="./rapra.jpeg" width="1000" alt="">
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="./public/script.js"></script>
+        <script crossorigin="anonymous"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function emaildefault() {
+                document.getElementById("email").defaultValue = "puskarwagle17@gmail.com";
+            }
+            emaildefault()
+        </script>
 </body>
 
 </html>

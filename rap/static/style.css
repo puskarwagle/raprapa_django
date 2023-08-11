@@ -1,0 +1,141 @@
+main {
+    color: black;
+}
+
+.form-group {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    flex: 1;
+    border: transparent;
+    border-bottom: 2px dotted black;
+    outline: transparent;
+    background-color: transparent;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+}
+label {
+    font-weight: bold;
+}
+.checkbox-label {
+    margin-right: 10px;
+}
+p {
+    font-weight: bold;
+}
+
+.required-field {
+    border: 2px solid red !important;
+    outline: 2px solid red !important;
+}
+/* styles.css or your custom CSS file */
+.table-bordered {
+    border: 2px solid #000; /* Change the color code (#000) to the desired dark color */
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 2px solid #000; /* Change the color code (#000) to the desired dark color */
+}
+.short-input {
+    width: 100px; /* Adjust the width as needed */
+}
+
+/* language on off toggle */
+.toggleContainer {
+    margin-right: 5px;
+}
+.language-switch {
+    display: inline-block;
+    position: relative;
+    width: 3vw;
+    height: 1.5vw;
+}
+
+.language-switch input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.language-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0096DB;
+    border-radius: 2vw;
+    cursor: pointer;
+    transition: background-color 0.4s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.2vw;
+}
+.language-label {
+    font-size: 1vw;
+    color: white;
+    transition: opacity 0.4s;
+}
+.language-switch label:before {
+    content: '';
+    position: absolute;
+    top: 0.1vw;
+    left: 0.1vw;
+    width: 1vw;
+    height: 1.3vw;
+    background-color: white;
+    border-radius: 60%;
+    transition: transform 0.4s;
+}
+
+.language-switch input:checked+label:before {
+    transform: translateX(1.8vw);
+}
+.language-switch label .language-label:nth-child(1) {
+    opacity: 0;
+}
+.language-switch input:checked+label .language-label:nth-child(1) {
+    opacity: 1;
+}
+.language-switch input:checked+label .language-label:nth-child(2) {
+    opacity: 0;
+}
+/* Hide the default file input text */
+.custom-file-input {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* Style the custom file label to make it look like a button */
+.custom-file-label {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Optional: Style the label to change appearance when a file is selected */
+.custom-file-label.selected {
+    background-color: #f0f0f0;
+}
+/* Add custom CSS styles for the logo and header text */
+#identityCard {
+    /* Adjust the top padding to align the logo vertically */
+    padding-top: 20px;
+}
+
+h2 {
+    /* Add margin to create space between the logo and header text */
+    margin-left: 20px;
+}
+
