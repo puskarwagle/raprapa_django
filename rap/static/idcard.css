@@ -1,0 +1,29 @@
+body {
+    background-color: #ccc;
+}
+
+.id-card {
+    width: 450px;
+    margin: 0 auto;
+    font-family: 'verdana';
+    background-color: cornflowerblue;
+    box-shadow: 0 0 1.5px 0px #b9b9b9;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+p {
+    font-size: 10px;
+    margin-bottom: 0px !important;
+}
+
+footer {
+    padding: 5px 0;
+    /* border-top: 0px solid #000; */
+    text-align: center;
+}
+
+footer p {
+    font-size: 7px;
+    margin: 0 0 2px 0;
+}

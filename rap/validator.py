@@ -32,15 +32,15 @@ def validate_nullable_integer(value):
         raise ValidationError("Enter a valid integer or leave it blank.")
 
 
-def parse_and_validate_date(input_date):
-    if not input_date:
-        return None  # Return None for empty input
+# def parse_and_validate_date(input_date):
+#     if not input_date:
+#         return None  # Return None for empty input
     
-    try:
-        # Parse input date in MM-DD-YYYY format
-        parsed_date = datetime.strptime(input_date, '%m-%d-%Y')
-        # Convert parsed date to YYYY-MM-DD format
-        formatted_date = parsed_date.strftime('%Y-%m-%d')
-        return formatted_date
-    except ValueError:
-        return None
+#     try:
+#         # Parse input date in MM-DD-YYYY format
+#         parsed_date = datetime.strptime(input_date, '%m-%d-%Y')
+#         # Convert parsed date to YYYY-MM-DD format
+#         formatted_date = parsed_date.strftime('%Y-%m-%d')
+#         return formatted_date
+#     except ValueError:
+#         return None

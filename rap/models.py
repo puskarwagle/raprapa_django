@@ -3,6 +3,13 @@ from django.db import models
 class Member(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    ]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='unknown')
     role = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,7 +31,7 @@ class Member(models.Model):
     membership_id = models.IntegerField(blank=True, null=True)
 
 
-    phone = models.IntegerField(
+    phone = models.CharField(
         blank=True,
         null=True,
         help_text="Enter a valid 10-digit phone number or leave it blank."
@@ -84,3 +91,5 @@ class Member(models.Model):
     
     class Meta:
         db_table = 'raprapa_members'
+
+        

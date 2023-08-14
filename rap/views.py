@@ -3,10 +3,11 @@ from .models import Member
 from django.core.mail import send_mail
 from django.http import JsonResponse
 import requests
+from datetime import date
 
 from django.core.exceptions import ValidationError
 from .validator import validate_nullable_integer
-from .validator import parse_and_validate_date
+# from .validator import parse_and_validate_date
 def index(request):
     return render(request, 'index.html')
 
@@ -28,8 +29,9 @@ def submit_membership(request):
 
         birth_date = request.POST.get("birth_date")
         membership_date = request.POST.get("membership_date")
-        print(birth_date)
-        print(membership_date)
+        print("membership_date:", membership_date)
+        if not membership_date:
+            membership_date = date.today().isoformat()
 
         integer_fields = {
             "phone": phone,
@@ -55,16 +57,9 @@ def submit_membership(request):
             error_message = str(e)
             return render(request, 'fail.html', {'error_message': error_message})
         
-        try:
-            validated_birth_date = parse_and_validate_date(birth_date)
-            validated_membership_date = parse_and_validate_date(membership_date)
-        except ValidationError as e:
-            print("Date validation error:", str(e))
-            error_message = str(e)
-            return render(request, 'datefail.html', {'error_message': error_message})
-        
         photo = request.POST.get("photo")
         name = request.POST.get("name")
+        gender = request.POST.get("gender")
         
         membership_type = request.POST.get("membership_type")
         membership_duration = request.POST.get("membership_duration")
@@ -106,8 +101,8 @@ def submit_membership(request):
         new_member = Member(
             photo=photo,
             name=name,
-            birth_date=validated_birth_date,
-            # birth_date=birth_date,
+            birth_date=birth_date,
+            gender=gender,
 
             membership_type=membership_type,
             membership_duration=membership_duration,
@@ -139,8 +134,7 @@ def submit_membership(request):
             caste=caste,
             # year_joined=validated_fields["year_joined"],
 
-            membership_date=validated_membership_date,
-            # membership_date=membership_date,
+            membership_date=membership_date,
 
             membership_id=validated_fields["membership_id"],
             past_responsibility=past_responsibility,
@@ -208,3 +202,4 @@ def initiate_khalti_payment(request):
     payment_data = response.json()
 
     return JsonResponse(payment_data)
+from django.shortcuts import render
