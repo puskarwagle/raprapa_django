@@ -9,7 +9,6 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet" />
     <link href="../static/style.css" rel="stylesheet" />
     <script defer src="static/script.js"></script>
-
 </head>
 
 <body>
@@ -40,7 +39,7 @@
                         </div>
                     </label>
                     <!-- Actual file input -->
-                    <input type="file" style="visibility: visible;" class="form-control" id="photo" accept="image/*"
+                    <input type="file" style="visibility: hidden;" class="form-control" id="photo" accept="image/*"
                         onchange="displayPreview(event)" name="photo">
                 </div>
             </div>
@@ -128,9 +127,7 @@
 
             <div class="form-group">
                 <label class="english-label" style="display: none;" for="perm_province">3. Permanent Address : Name of State :</label>
-                <label class="nepali-label" for="perm_province">३. स्थायी ठेगाना :
-                    प्रदेशको नाम
-                    :</label>
+                <label class="nepali-label" for="perm_province">३. स्थायी ठेगाना : प्रदेशको नाम: </label>
                 <input type="text" class="form-control" id="perm_province" name="perm_province">
 
                 <label class="english-label" style="display: none;" for="perm_district">District :</label>

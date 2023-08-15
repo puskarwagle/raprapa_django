@@ -13,8 +13,10 @@
 
     <div class="contain" id="first-box" style="display: flex;">
       <div>
-        {{membership_type}}
-        {{membership_duration}}
+        <p>{{ name }}</p>
+        <p id="membership_type">{{membership_type}}</p>
+        <p id="membership_duration">{{membership_duration}}</p>
+        <p id="money"></p>
       </div>
       <div class="payment_gateways">
         <img src="../static/images/khalti.jpeg" alt="khalti" />
@@ -41,96 +43,106 @@
 
 
     <div class="contain" id="second-box">
-      <h2>Pay With Khalti</h2>
-      <div class="form-group">
-        <label class="" for="name">नाम/Name :</label>
-        <input type="text" class="form-control" id="name" value="{{ name }}" name="name" required>
-      </div>
-      <div class="form-group">
-        <label class="" for="phone">सम्पर्क नं./Mobile Number :</label>
-        <input type="number" class="form-control" id="phone" value="{{ phone }}" name="phone" required>
-      </div>
-      <div class="form-group">
-        <label class="" for="email">इमेल/Email :  </label>
-        <input type="email" class="form-control" value="{{ email }}" id="email" name="email">
-      </div>
-      <button type="submit" class="button">Make Payment</button>
-    </div> <!-- 2 contain -->
+      <h2>Pay With Gateways</h2>
+      <form action="/initiate_khalti_payment/" method="POST" onsubmit="initiateKhaltiPayment(event)">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="" for="name">नाम/Name :</label>
+          <input type="text" class="form-control" id="name" value="{{ name }}" name="name" required>
+        </div>
+        <div class="form-group">
+          <label class="" for="phone">सम्पर्क नं./Mobile Number :</label>
+          <input type="number" class="form-control" id="phone" value="{{ phone }}" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label class="" for="email">इमेल/Email : </label>
+          <input type="email" class="form-control" value="{{ email }}" id="email" name="email">
+        </div>
+        <div class="form-group">
+          <label class="" for="amount">Amount : </label>
+          <input type="text" readonly style="visibility: visible;" class="form-control" id="amount" value=""
+            name="amount">
+        </div>
+        <button type="submit" class="button">Make Payment</button>
+      </form>
+    </div>
+
+    <!-- 2 contain -->
 
     <div class="contain" id="third-box">
       <h2>Pay With Cards</h2>
       <div class="form-group">
         <label for="cardNumber">Card Number :</label>
-        <input type="text" id="cardNumber" name="cardNumber" required><br>
+        <input type="text" id="cardNumber" name="cardNumber"><br>
       </div>
 
       <div class="form-group">
         <label for="expirationDate">Expiration Date :</label>
-        <input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YY" required><br>
+        <input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YY"><br>
       </div>
 
       <div class="form-group">
         <label for="cardholderName">Cardholder's Name :</label>
-        <input type="text" id="cardholderName" name="cardholderName" required><br>
+        <input type="text" id="cardholderName" name="cardholderName"><br>
       </div>
 
       <div class="form-group">
         <label for="cvv">CVV/CVC Code :</label>
-        <input type="text" id="cvv" name="cvv" required><br>
+        <input type="text" id="cvv" name="cvv"><br>
       </div>
 
       <div class="form-group">
         <label for="billingAddress">Billing Address :</label>
-        <input type="text" id="billingAddress" name="billingAddress" required><br>
+        <input type="text" id="billingAddress" name="billingAddress"><br>
       </div>
 
       <div class="form-group">
         <label for="zipCode">Zip Code/Postal Code :</label>
-        <input type="text" id="zipCode" name="zipCode" required><br>
+        <input type="text" id="zipCode" name="zipCode"><br>
       </div>
 
       <div class="form-group">
         <label for="country">Country :</label>
-        <input type="text" id="country" name="country" required><br>
+        <input type="text" id="country" name="country"><br>
       </div>
 
       <div class="form-group">
-        <label for="email">Email Address :</label>
-        <input type="email" id="email" name="email" required><br>
+        <label for="mail">Email Address :</label>
+        <input type="email" id="mail" name="mail"><br>
       </div>
 
       <div class="form-group">
         <label for="phoneNumber">Phone Number :</label>
-        <input type="tel" id="phoneNumber" name="phoneNumber" required><br>
+        <input type="tel" id="phoneNumber" name="phoneNumber"><br>
       </div>
 
       <div class="form-group">
         <label for="cardType">Card Type :</label>
-        <select id="cardType" name="cardType" required>
+        <select id="cardType" name="cardType">
           <option value="visa">Visa</option>
           <option value="mastercard">MasterCard</option>
           <option value="amex">American Express</option>
         </select><br>
       </div>
 
-      <button type="submit"  class="button">Make Payment</button>
+      <button type="submit" class="button">Make Payment</button>
     </div> <!-- 3 contain -->
 
     <div class="contain" id="fourth-box">
       <h2>Pay With Bank Accounts</h2>
       <div class="form-group">
         <label for="bankName">Bank Name :</label>
-        <input type="text" id="bankName" name="bankName" required><br>
+        <input type="text" id="bankName" name="bankName"><br>
       </div>
 
       <div class="form-group">
         <label for="accountHolderName">Account Holder's Name :</label>
-        <input type="text" id="accountHolderName" name="accountHolderName" required><br>
+        <input type="text" id="accountHolderName" name="accountHolderName"><br>
       </div>
 
       <div class="form-group">
         <label for="accountNumber">Account Number :</label>
-        <input type="text" id="accountNumber" name="accountNumber" required><br>
+        <input type="text" id="accountNumber" name="accountNumber"><br>
       </div>
 
       <div class="form-group">
@@ -150,74 +162,35 @@
 
       <div class="form-group">
         <label for="reference">Reference/Message :</label>
-        <input type="text" id="reference" name="reference" required><br>
+        <input type="text" id="reference" name="reference"><br>
       </div>
 
       <div class="form-group">
         <label for="amount">Amount :</label>
-        <input type="number" id="amount" name="amount" required><br>
+        <input type="number" id="amount" name="amount"><br>
       </div>
 
       <div class="form-group">
         <label for="currency">Currency :</label>
-        <input type="text" id="currency" name="currency" required><br>
+        <input type="text" id="currency" name="currency"><br>
       </div>
 
       <div class="form-group">
         <label for="authorization">Authorization :</label>
-        <input type="password" id="authorization" name="authorization" required><br>
+        <input type="password" id="authorization" name="authorization"><br>
       </div>
 
       <div class="form-group">
         <label for="recipientBankCountry">Recipient Bank Country :</label>
-        <input type="text" id="recipientBankCountry" name="recipientBankCountry" required><br>
+        <input type="text" id="recipientBankCountry" name="recipientBankCountry"><br>
       </div>
       <button type="submit" class="button">Initiate Payment</button>
     </div> <!-- 4 contain -->
   </main>
 
-  <button><a href="{% url 'id_card' %}" class="btn">Generate ID Card</a></button>
-  
+  <button style="margin-left:auto; width:150px;"><a href="{% url 'id_card' %}" class="btn">Generate ID Card</a></button>
 
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const paymentGateways = document.querySelector(".payment_gateways");
-      const cardsGateways = document.querySelector(".payment_cards");
-      const banksGateways = document.querySelector(".payment_banks");
-
-      const firstBox = document.getElementById("first-box");
-      const secondBox = document.getElementById("second-box");
-      const thirdBox = document.getElementById("third-box");
-      const fourthBox = document.getElementById("fourth-box");
-
-      const gatewayImages = paymentGateways.querySelectorAll("img");
-      const bankImages = banksGateways.querySelectorAll("img");
-      const cardsImages = cardsGateways.querySelectorAll("img");
-
-      gatewayImages.forEach(image => {
-        image.addEventListener("click", function () {
-          secondBox.style.display = "flex";
-          firstBox.style.display = "none";
-        });
-      });
-
-      bankImages.forEach(image => {
-        image.addEventListener("click", function () {
-          thirdBox.style.display = "flex";
-          firstBox.style.display = "none";
-        });
-      });
-
-      cardsImages.forEach(image => {
-        image.addEventListener("click", function () {
-          fourthBox.style.display = "flex";
-          firstBox.style.display = "none";
-        });
-      });
-    }); // root
-
-  </script>
+  <script src="../static/payment.js"></script>
 
 </body>
 

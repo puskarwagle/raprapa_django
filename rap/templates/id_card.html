@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Id card</title>
-    <link rel="stylesheet" href="../static/idcard.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+
+    <link rel="stylesheet" href="../static/idcard.css">
+
 </head>
 
 <body>
-    
+
     <div class="id-card mt-5">
         <div class="d-flex justify-content-between align-items-center head-info"
             style="background-color: cornflowerblue;">
@@ -28,10 +28,14 @@
                 <span class="text-nowrap" style="font-size: 0.6rem;font-weight: 600;">
                     <h6><strong>{{ name }}</strong></h6>
                 </span>
-                <img src="{{ MEDIA_URL }}userImages/{{ image_name }}" alt="mem image" height="100" width="100">
+                {% if image_path %}
+                <img src="/media/{{ image_path }}" alt="User's Image" height="100" width="100">
+                {% else %}
+                <p>No image available</p>
+                {% endif %}
             </div>
             <div class="d-flex flex-column p-4 hamropem" style="width: 90%; margin-left: -10px;">
-                <p><strong>ID No : <span>122314524521</span></strong></p>
+                <p><strong>ID No : <span>no function for this</span></strong></p>
                 <p>Voter ID : <span>{{voter_id}}</span></p>
                 <p>Membership-type: <spa>{{ membership_type }}</span></p>
                 <p>Gender: <span>{{ gender }}</span></p>

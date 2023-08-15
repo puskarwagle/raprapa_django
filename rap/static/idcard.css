@@ -12,18 +12,18 @@ body {
     overflow: hidden;
 }
 
-p {
-    font-size: 10px;
+.hamropem p {
+    font-size: 16px !important;
     margin-bottom: 0px !important;
+    color: red;
 }
 
 footer {
     padding: 5px 0;
-    /* border-top: 0px solid #000; */
     text-align: center;
 }
 
 footer p {
-    font-size: 7px;
+    font-size: 10px;
     margin: 0 0 2px 0;
 }

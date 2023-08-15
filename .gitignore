@@ -1,4 +1,5 @@
 __pycache__
+*.pyc
 ./rap/__pycache__
 ./raprapa/__pycache__
 ./rap/migrations/__pycache__

@@ -7,6 +7,7 @@ from datetime import date
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponseRedirect
 
 from django.core.exceptions import ValidationError
 from .validator import validate_nullable_integer
@@ -191,10 +192,7 @@ def payment_page(request):
     membership_duration = request.session.get('membership_duration')
     email = request.session.get('email')
     phone = request.session.get('phone')
-    # print(name,email,phone)
     return render(request, "payment.html", {'name': name, 'email': email, 'phone': phone, 'membership_type': membership_type, 'membership_duration': membership_duration})
-
-
 
 def id_card(request):
     name = request.session.get('name')
@@ -226,28 +224,43 @@ def id_card(request):
     return render(request, "id_card.html", {"qr_code_img": qr_link, 'citizenship_number': citizenship_number, 'image_path': photo, 'voter_id': voter_id, 'name': name, 'email': email, 'phone': phone, 'membership_type': membership_type, 'membership_duration': membership_duration})
 
 
-
 # Khalti 
+
+
+import requests
+from django.http import JsonResponse
+
 def initiate_khalti_payment(request):
     url = "https://a.khalti.com/api/v2/epayment/initiate/"
     headers = {
         "Authorization": "Key 0ee3e3a99d294a01b700cb5c15323723",
         "Content-Type": "application/json"
     }
+
+    # Get the form data from the POST request
+    name = request.POST.get("name")
+    phone = request.POST.get("phone")
+    email = request.POST.get("email")
+    amount = int(request.POST.get("amount"))
+
     data = {
         "return_url": "http://localhost:8000/payment/success",
         "website_url": "http://localhost:8000/payment/",
-        "amount": 100000,
+        "amount": amount,  # Use the amount from the form
         "purchase_order_id": "12345",
         "purchase_order_name": "Raprapa id card",
         "customer_info": {
-            "name": "John Doe",
-            "email": "john@example.com",
-            "phone": "9800000000"
+            "name": name,   
+            "email": email, 
+            "phone": phone
         }
     }
 
     response = requests.post(url, json=data, headers=headers)
     payment_data = response.json()
 
-    return JsonResponse(payment_data)
+    payment_url = payment_data.get("payment_url")
+
+    return HttpResponseRedirect(payment_url)
+
+
