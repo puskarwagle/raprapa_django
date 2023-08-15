@@ -4,15 +4,35 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 import requests
 from datetime import date
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 from django.core.exceptions import ValidationError
 from .validator import validate_nullable_integer
-# from .validator import parse_and_validate_date
+
+import qrcode
+from io import BytesIO
+import base64
+
 def index(request):
     return render(request, 'index.html')
 
 def submit_membership(request):
     if request.method == "POST":
+        name = request.POST.get("name")
+        photo = request.FILES.get("photo")
+        print(photo)
+
+        if photo:
+            _, file_extension = os.path.splitext(photo.name)
+            image_name = f"{name}{file_extension}"
+            image_path = os.path.join("userImages", image_name)
+            fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+            fs.save(image_path, photo)
+        else:
+            image_path = None
+
         phone = request.POST.get("phone")
         voter_id = request.POST.get("voter_id")
         membership_id = request.POST.get("membership_id")
@@ -25,11 +45,8 @@ def submit_membership(request):
         worktenure3 = request.POST.get("worktenure3")
         worktenure4 = request.POST.get("worktenure4")
         worktenure5 = request.POST.get("worktenure5")
-        # year_joined = request.POST.get("year_joined")
-
         birth_date = request.POST.get("birth_date")
         membership_date = request.POST.get("membership_date")
-        print("membership_date:", membership_date)
         if not membership_date:
             membership_date = date.today().isoformat()
 
@@ -46,7 +63,6 @@ def submit_membership(request):
             "worktenure3": worktenure3,
             "worktenure4": worktenure4,
             "worktenure5": worktenure5,
-            # "year_joined": year_joined,
         }
         validated_fields = {}
         try:
@@ -57,13 +73,9 @@ def submit_membership(request):
             error_message = str(e)
             return render(request, 'fail.html', {'error_message': error_message})
         
-        photo = request.POST.get("photo")
-        name = request.POST.get("name")
         gender = request.POST.get("gender")
-        
         membership_type = request.POST.get("membership_type")
         membership_duration = request.POST.get("membership_duration")
-
         email = request.POST.get("email")
         perm_province = request.POST.get("perm_province")
         perm_district = request.POST.get("perm_district")
@@ -82,7 +94,6 @@ def submit_membership(request):
         education = request.POST.get("education")
         religion = request.POST.get("religion")
         caste = request.POST.get("caste")
-        
         marital_status = request.POST.get("marital_status")
         past_responsibility = request.POST.get("past_responsibility")
         company1 = request.POST.get("company1")
@@ -99,14 +110,12 @@ def submit_membership(request):
         position_of_approver = request.POST.get("position_of_approver")
 
         new_member = Member(
-            photo=photo,
+            photo=image_path,
             name=name,
             birth_date=birth_date,
             gender=gender,
-
             membership_type=membership_type,
             membership_duration=membership_duration,
-
             citizenship_number=validated_fields["citizenship_number"],
             voter_id=validated_fields["voter_id"],
             phone=validated_fields["phone"],
@@ -132,10 +141,7 @@ def submit_membership(request):
             religion=religion,
             marital_status=marital_status,
             caste=caste,
-            # year_joined=validated_fields["year_joined"],
-
             membership_date=membership_date,
-
             membership_id=validated_fields["membership_id"],
             past_responsibility=past_responsibility,
             company1=company1,
@@ -163,20 +169,63 @@ def submit_membership(request):
         if email:
             subject = 'Membership Submission'
             message = f'Thank you for submitting your email: {email}'
-            sender_email = 'utshabbardewa2055@gmail.com'  # Replace with your sender email
+            sender_email = 'utshabbardewa2055@gmail.com'
             recipient_list = [email]
             send_mail(subject, message, sender_email, recipient_list)
 
-        return redirect("payment")
-    return render(request, 'payment.html')
+        request.session['name'] = name
+        request.session['membership_type'] = membership_type
+        request.session['membership_duration'] = membership_duration
+        request.session['email'] = email
+        request.session['phone'] = validated_fields['phone']
+        request.session['voter_id'] = voter_id
+        request.session['citizenship_number'] = citizenship_number
+        request.session['image_path'] = image_path
+        print(photo)
+
+    return redirect('payment')
 
 def payment_page(request):
-    return render(request, "payment.html")
+    name = request.session.get('name')
+    membership_type = request.session.get('membership_type')
+    membership_duration = request.session.get('membership_duration')
+    email = request.session.get('email')
+    phone = request.session.get('phone')
+    # print(name,email,phone)
+    return render(request, "payment.html", {'name': name, 'email': email, 'phone': phone, 'membership_type': membership_type, 'membership_duration': membership_duration})
+
+
 
 def id_card(request):
-    # Logic for generating the ID card goes here
-    # You can pass any necessary data to the template
-    return render(request, "id_card.html")
+    name = request.session.get('name')
+    membership_type = request.session.get('membership_type')
+    membership_duration = request.session.get('membership_duration')
+    email = request.session.get('email')
+    phone = request.session.get('phone')
+    voter_id = request.session.get('voter_id')
+    citizenship_number = request.session.get('citizenship_number')
+    photo = request.session.get('image_path')
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data('data')
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    img_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    qr_link = f"data:image/png;base64,{img_data}"
+
+    return render(request, "id_card.html", {"qr_code_img": qr_link, 'citizenship_number': citizenship_number, 'image_path': photo, 'voter_id': voter_id, 'name': name, 'email': email, 'phone': phone, 'membership_type': membership_type, 'membership_duration': membership_duration})
+
+
 
 # Khalti 
 def initiate_khalti_payment(request):
@@ -202,4 +251,3 @@ def initiate_khalti_payment(request):
     payment_data = response.json()
 
     return JsonResponse(payment_data)
-from django.shortcuts import render

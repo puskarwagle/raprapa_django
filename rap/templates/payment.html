@@ -5,17 +5,220 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- custom css file link  -->
   <link rel="stylesheet" href="../static/payment.css">
-
 </head>
 
 <body>
+  <main class="container">
 
-  <div class="container">
-    
-  </div>
+    <div class="contain" id="first-box" style="display: flex;">
+      <div>
+        {{membership_type}}
+        {{membership_duration}}
+      </div>
+      <div class="payment_gateways">
+        <img src="../static/images/khalti.jpeg" alt="khalti" />
+        <img src="../static/images/esewa.jpeg" alt="khalti" />
+        <img src="../static/images/imepay.png" alt="khalti" />
+        <img src="../static/images/ipay.png" alt="khalti" />
+        <img src="../static/images/prabhupay.png" alt="khalti" />
+      </div>
+      <div class="payment_banks">
+        <img src="../static/images/PayPal.png" alt="khalti" />
+        <img src="../static/images/mastercard.png" alt="khalti" />
+        <img src="../static/images/visa.jpeg" alt="khalti" />
+        <img src="../static/images/american.png" alt="khalti" />
+        <img src="../static/images/stripe.png" alt="khalti" />
+      </div>
+      <div class="payment_cards">
+        <img src="../static/images/Nic-Asia.jpg" alt="khalti" />
+        <img src="../static/images/nimb.png" alt="khalti" />
+        <img src="../static/images/nepal-rastriya.jpeg" alt="khalti" />
+        <img src="../static/images/Global.png" alt="khalti" />
+        <img src="../static/images/Kumari.jpg" alt="khalti" />
+      </div>
+    </div> <!-- 1 contain -->
+
+
+    <div class="contain" id="second-box">
+      <h2>Pay With Khalti</h2>
+      <div class="form-group">
+        <label class="" for="name">नाम/Name :</label>
+        <input type="text" class="form-control" id="name" value="{{ name }}" name="name" required>
+      </div>
+      <div class="form-group">
+        <label class="" for="phone">सम्पर्क नं./Mobile Number :</label>
+        <input type="number" class="form-control" id="phone" value="{{ phone }}" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label class="" for="email">इमेल/Email :  </label>
+        <input type="email" class="form-control" value="{{ email }}" id="email" name="email">
+      </div>
+      <button type="submit" class="button">Make Payment</button>
+    </div> <!-- 2 contain -->
+
+    <div class="contain" id="third-box">
+      <h2>Pay With Cards</h2>
+      <div class="form-group">
+        <label for="cardNumber">Card Number :</label>
+        <input type="text" id="cardNumber" name="cardNumber" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="expirationDate">Expiration Date :</label>
+        <input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YY" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="cardholderName">Cardholder's Name :</label>
+        <input type="text" id="cardholderName" name="cardholderName" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="cvv">CVV/CVC Code :</label>
+        <input type="text" id="cvv" name="cvv" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="billingAddress">Billing Address :</label>
+        <input type="text" id="billingAddress" name="billingAddress" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="zipCode">Zip Code/Postal Code :</label>
+        <input type="text" id="zipCode" name="zipCode" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country :</label>
+        <input type="text" id="country" name="country" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address :</label>
+        <input type="email" id="email" name="email" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number :</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="cardType">Card Type :</label>
+        <select id="cardType" name="cardType" required>
+          <option value="visa">Visa</option>
+          <option value="mastercard">MasterCard</option>
+          <option value="amex">American Express</option>
+        </select><br>
+      </div>
+
+      <button type="submit"  class="button">Make Payment</button>
+    </div> <!-- 3 contain -->
+
+    <div class="contain" id="fourth-box">
+      <h2>Pay With Bank Accounts</h2>
+      <div class="form-group">
+        <label for="bankName">Bank Name :</label>
+        <input type="text" id="bankName" name="bankName" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="accountHolderName">Account Holder's Name :</label>
+        <input type="text" id="accountHolderName" name="accountHolderName" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="accountNumber">Account Number :</label>
+        <input type="text" id="accountNumber" name="accountNumber" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="branchCode">Bank/Branch Code :</label>
+        <input type="text" id="branchCode" name="branchCode"><br>
+      </div>
+
+      <div class="form-group">
+        <label for="swiftCode">SWIFT/BIC Code :</label>
+        <input type="text" id="swiftCode" name="swiftCode"><br>
+      </div>
+
+      <div class="form-group">
+        <label for="iban">IBAN :</label>
+        <input type="text" id="iban" name="iban"><br>
+      </div>
+
+      <div class="form-group">
+        <label for="reference">Reference/Message :</label>
+        <input type="text" id="reference" name="reference" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount :</label>
+        <input type="number" id="amount" name="amount" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="currency">Currency :</label>
+        <input type="text" id="currency" name="currency" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="authorization">Authorization :</label>
+        <input type="password" id="authorization" name="authorization" required><br>
+      </div>
+
+      <div class="form-group">
+        <label for="recipientBankCountry">Recipient Bank Country :</label>
+        <input type="text" id="recipientBankCountry" name="recipientBankCountry" required><br>
+      </div>
+      <button type="submit" class="button">Initiate Payment</button>
+    </div> <!-- 4 contain -->
+  </main>
+
+  <button><a href="{% url 'id_card' %}" class="btn">Generate ID Card</a></button>
+  
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const paymentGateways = document.querySelector(".payment_gateways");
+      const cardsGateways = document.querySelector(".payment_cards");
+      const banksGateways = document.querySelector(".payment_banks");
+
+      const firstBox = document.getElementById("first-box");
+      const secondBox = document.getElementById("second-box");
+      const thirdBox = document.getElementById("third-box");
+      const fourthBox = document.getElementById("fourth-box");
+
+      const gatewayImages = paymentGateways.querySelectorAll("img");
+      const bankImages = banksGateways.querySelectorAll("img");
+      const cardsImages = cardsGateways.querySelectorAll("img");
+
+      gatewayImages.forEach(image => {
+        image.addEventListener("click", function () {
+          secondBox.style.display = "flex";
+          firstBox.style.display = "none";
+        });
+      });
+
+      bankImages.forEach(image => {
+        image.addEventListener("click", function () {
+          thirdBox.style.display = "flex";
+          firstBox.style.display = "none";
+        });
+      });
+
+      cardsImages.forEach(image => {
+        image.addEventListener("click", function () {
+          fourthBox.style.display = "flex";
+          firstBox.style.display = "none";
+        });
+      });
+    }); // root
+
+  </script>
 
 </body>
+
 </html>

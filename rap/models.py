@@ -1,5 +1,6 @@
 from django.db import models
-    
+from django.contrib import admin
+
 class Member(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -92,4 +93,10 @@ class Member(models.Model):
     class Meta:
         db_table = 'raprapa_members'
 
-        
+# class MemberAdmin(admin.ModelAdmin):
+#     model = Member
+#     list_filter = ['gender', 'role', 'membership_type']  
+#     search_fields = ['name', 'email', 'phone']
+
+# admin.site.unregister(Member)  
+# admin.site.register(Member, MemberAdmin)
