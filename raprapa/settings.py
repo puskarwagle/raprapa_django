@@ -75,14 +75,7 @@ WSGI_APPLICATION = 'raprapa.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '110.44.116.135',
-        'PORT': '57432',
-        'NAME': 'raprapa2',
-        'USER': 'ocb_ecommerce',
-        'PASSWORD': 'e',
-    }
+    
 }
 
 MIGRATION_MODULES = {
